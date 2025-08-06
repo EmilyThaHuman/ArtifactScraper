@@ -31,7 +31,7 @@ const getAvailableModels = () => {
         value: string;
         label: string;
     }[] = [];
-    if (whereLoadFrom() === 'config') {
+    if (whereLoadFrom() === 'config' && aiConfig) {
         Object.entries(aiConfig.modelMapping).forEach(([key, model]) => {
             const modelId: string = getEnabledModelIdByModelKey(key);
             modelOptions.push({
@@ -68,7 +68,7 @@ const getEnabledProviderModels = () => {
         modelId: string;
     }[] = [];
 
-    if (whereLoadFrom() === 'config') {
+    if (whereLoadFrom() === 'config' && aiConfig) {
         Object.entries(aiConfig.modelMapping).forEach(([modelName, model]) => {
             const modelDetail = model as ConfigModelDetail;
             for (const provider of modelDetail.providers) {
@@ -106,7 +106,7 @@ const getEnabledProviderModels = () => {
  * @returns The enabled model id
  */
 const getEnabledModelIdByModelKey = (modelKey: string): string => {
-    if (whereLoadFrom() === 'config') {
+    if (whereLoadFrom() === 'config' && aiConfig) {
         const model = aiConfig.modelMapping[modelKey];
         if (model) {
             for (const provider of (model as ConfigModelDetail).providers) {
@@ -125,7 +125,7 @@ const getEnabledModelIdByModelKey = (modelKey: string): string => {
  * @returns The default llm model id
  */
 const getDefaultLLModelId = (): string => {
-    if (whereLoadFrom() === 'config') {
+    if (whereLoadFrom() === 'config' && aiConfig) {
         // check if defaults has config
         if (aiConfig.defaults?.DEFAULT_LLM_MODEL) {
             const res = getEnabledModelIdByModelKey(aiConfig.defaults.DEFAULT_LLM_MODEL);
@@ -143,7 +143,7 @@ const getDefaultLLModelId = (): string => {
  * @returns The model id for extraction scene
  */
 const getExtractModelId = () => {
-    if (whereLoadFrom() === 'config') {
+    if (whereLoadFrom() === 'config' && aiConfig) {
         if (aiConfig.defaults?.DEFAULT_EXTRACT_MODEL) {
             const res: string = getEnabledModelIdByModelKey(aiConfig.defaults.DEFAULT_EXTRACT_MODEL);
             if (res) {
