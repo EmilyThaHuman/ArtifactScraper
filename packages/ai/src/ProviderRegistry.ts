@@ -9,9 +9,9 @@ const separator = '/';
 let providerRegistry: ProviderRegistry;
 
 
-if (typedAiConfig) {
+if (aiConfig) {
     // load from config
-    const providers = typedAiConfig.providers;
+    const providers = aiConfig.providers;
     const providerInstances: Record<string, any> = {};
     Object.entries(providers).forEach(([key, provider]) => {
         const typedProvider = provider as {
