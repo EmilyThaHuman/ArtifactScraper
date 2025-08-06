@@ -1,0 +1,45 @@
+{
+    "name": "@artifactscraper/libs",
+    "version": "0.0.1-beta.1",
+    "type": "module",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "dev": "tsc --watch",
+        "build": "tsc",
+        "clean": "rm -rf dist",
+        "test": "jest --detectOpenHandles --forceExit",
+        "test:watch": "jest --watch --detectOpenHandles",
+        "test:coverage": "jest --coverage --detectOpenHandles --forceExit",
+        "typecheck": "tsc --noEmit"
+    },
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "default": "./dist/index.js"
+        },
+        "./html-to-markdown": {
+            "import": "./dist/html-to-markdown.js",
+            "default": "./dist/html-to-markdown.js"
+        },
+        "./log": {
+            "import": "./dist/log.js",
+            "default": "./dist/log.js"
+        }
+    },
+    "devDependencies": {
+        "@artifactscraper/typescript-config": "workspace:*",
+        "ts-jest": "^29.3.2",
+        "@types/turndown": "^5.0.5",
+        "@types/jest": "^29.5.14",
+        "jest": "^29.7.0",
+        "@jest/globals": "^29.7.0",
+        "typescript": "5.8.2"
+    },
+    "dependencies": {
+        "@aws-sdk/client-s3": "^3.826.0",
+        "@aws-sdk/s3-request-presigner": "^3.826.0",
+        "crawlee": "^3.13.0",
+        "turndown": "^7.2.0"
+    }
+}
