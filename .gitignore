@@ -56,7 +56,7 @@ storage/
 *.sqlite
 *.sqlite3
 proxy.config.json
-ai.config.json
+# ai.config.json - commented out so it can be deployed
 
 # Logs
 logs
