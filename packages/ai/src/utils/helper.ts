@@ -1,12 +1,13 @@
 import { modelsConfig } from './models-config.js';
 import { loadAIConfig } from './config.js';
-import { ConfigModelDetail } from './types.js';
+import { ConfigModelDetail, AIConfig } from './types.js';
 
-let aiConfig;
+let aiConfig: AIConfig | null;
 try {
     aiConfig = loadAIConfig();
-} catch (error) {
-    console.warn('AI config file not found, falling back to environment variables:', error.message);
+} catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.warn('AI config file not found, falling back to environment variables:', errorMessage);
     aiConfig = null;
 }
 
