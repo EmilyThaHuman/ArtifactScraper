@@ -38,7 +38,7 @@ COPY packages/eslint-config/package.json ./packages/eslint-config/
 COPY packages/typescript-config/package.json ./packages/typescript-config/
 
 # Install dependencies
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --ignore-scripts
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 # Copy source code and build dependencies first
 COPY . .
@@ -94,7 +94,7 @@ COPY --from=build /usr/src/app/apps/api/docker-entrypoint.sh ./apps/api/
 COPY --from=build /usr/src/app/apps/api/drizzle ./apps/api/drizzle
 
 # Install production dependencies
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+RUN pnpm install --prod --frozen-lockfile
 
 # Install browser binaries for playwright (always)
 RUN cd /usr/src/app/packages/scrape && npx playwright install chromium

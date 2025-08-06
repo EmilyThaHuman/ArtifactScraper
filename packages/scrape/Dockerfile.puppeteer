@@ -18,7 +18,7 @@ COPY --chown=myuser:myuser package.json pnpm-lock.yaml pnpm-workspace.yaml turbo
 COPY --chown=myuser:myuser packages/libs/package.json ./packages/libs/package.json
 COPY --chown=myuser:myuser packages/scrape/package.json ./packages/scrape/package.json
 USER myuser
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --ignore-scripts
+RUN pnpm install --frozen-lockfile --ignore-scripts
 COPY --chown=myuser:myuser . .
 RUN pnpm build --filter=@artifactscraper/scrape --filter=@artifactscraper/libs
 RUN rm -rf node_modules
@@ -42,7 +42,7 @@ COPY --chown=myuser:myuser --from=build /usr/src/app/packages/scrape/package.jso
 COPY --chown=myuser:myuser --from=build /usr/src/app/packages/libs/package.json /usr/src/app/packages/libs/package.json
 
 USER myuser
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile --ignore-scripts
+RUN pnpm install --prod --frozen-lockfile --ignore-scripts
 
 # Ensure puppeteer browsers are properly installed
 RUN npx puppeteer browsers install chrome
