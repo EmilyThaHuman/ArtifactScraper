@@ -24,7 +24,7 @@ COPY apps/api/package.json ./apps/api/
 COPY packages/ ./packages/
 
 # Install dependencies first (better caching)
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --no-frozen-lockfile
 
 # Copy source code and build
 COPY . .
@@ -40,7 +40,7 @@ COPY --from=build /usr/src/app/packages ./packages
 COPY --from=build /usr/src/app/node_modules ./node_modules
 
 # Install production dependencies
-RUN pnpm install --prod --frozen-lockfile
+RUN pnpm install --prod --no-frozen-lockfile
 
 WORKDIR /usr/src/app/apps/api
 EXPOSE 8080
