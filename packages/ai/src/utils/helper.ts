@@ -72,7 +72,7 @@ const getEnabledProviderModels = () => {
         Object.entries(aiConfig.modelMapping).forEach(([modelName, model]) => {
             const modelDetail = model as ConfigModelDetail;
             for (const provider of modelDetail.providers) {
-                if (aiConfig.providers[provider.provider]?.enabled) {
+                if (aiConfig && aiConfig.providers[provider.provider]?.enabled) {
                     enabledModels.push({
                         modelName,
                         displayName: modelDetail.displayName,
