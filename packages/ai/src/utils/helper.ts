@@ -2,7 +2,13 @@ import { modelsConfig } from './models-config.js';
 import { loadAIConfig } from './config.js';
 import { ConfigModelDetail } from './types.js';
 
-const aiConfig = loadAIConfig();
+let aiConfig;
+try {
+    aiConfig = loadAIConfig();
+} catch (error) {
+    console.warn('AI config file not found, falling back to environment variables:', error.message);
+    aiConfig = null;
+}
 
 /**
  * Check if the config is loaded from the config file

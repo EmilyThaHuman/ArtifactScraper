@@ -93,6 +93,9 @@ COPY --from=build /usr/src/app/apps/api/package.json ./apps/api/
 COPY --from=build /usr/src/app/apps/api/docker-entrypoint.sh ./apps/api/
 COPY --from=build /usr/src/app/apps/api/drizzle ./apps/api/drizzle
 
+# Copy AI config file (if it exists)
+COPY ai.config.json ./ai.config.json
+
 # Install production dependencies
 RUN pnpm install --prod --no-frozen-lockfile
 
