@@ -42,7 +42,9 @@ RUN pnpm install --no-frozen-lockfile --ignore-scripts
 
 # Copy source code and build dependencies first
 COPY . .
-RUN pnpm build --filter=@artifactscraper/libs --filter=@artifactscraper/scrape --filter=@artifactscraper/search --filter=@artifactscraper/ai
+# Build packages in dependency order
+RUN pnpm build --filter=@artifactscraper/libs
+RUN pnpm build --filter=@artifactscraper/scrape --filter=@artifactscraper/search --filter=@artifactscraper/ai
 RUN pnpm build --filter=api
 
 # Remove dev dependencies
