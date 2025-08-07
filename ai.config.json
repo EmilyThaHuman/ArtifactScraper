@@ -2,11 +2,11 @@
     "providers": {
         "openai": {
             "enabled": true,
-            "apiKey": "OPENAI_API_KEY_PLACEHOLDER"
+            "apiKey": "OPENAI_API_KEY"
         },
         "openrouter": {
             "enabled": true,
-            "apiKey": "OPENROUTER_API_KEY_PLACEHOLDER",
+            "apiKey": "OPENROUTER_API_KEY",
             "baseURL": "https://openrouter.ai/api/v1"
         },
         "custom": {
