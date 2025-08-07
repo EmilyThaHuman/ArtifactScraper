@@ -42,6 +42,10 @@ RUN pnpm install --no-frozen-lockfile --ignore-scripts
 
 # Copy source code and build dependencies first
 COPY . .
+
+# Create necessary directories for database and storage
+RUN mkdir -p /usr/src/app/db /usr/src/app/storage/key_value_stores/ArtifactScraper
+
 # Build packages in dependency order
 RUN pnpm build --filter=@artifactscraper/libs
 RUN pnpm build --filter=@artifactscraper/scrape --filter=@artifactscraper/search --filter=@artifactscraper/ai
