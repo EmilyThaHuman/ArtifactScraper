@@ -18,41 +18,40 @@ function removeDefaultProperty(obj: any): any {
 }
 
 function normalizeSchema(schema: any): any {
-    if (schema && schema.type === "array") {
-        // Wrap array schema in an object with 'items' property
-        return {
-            type: "object",
-            properties: {
-                items: {
-                    ...schema,
-                    items: normalizeSchema(schema.items)
-                },
-            },
-            required: ["items"],
-            additionalProperties: false,
-        };
-    } else if (schema && typeof schema === "object") {
-        if (schema.type === "object" && schema.properties) {
-            // Process object with properties recursively
+    if (schema && typeof schema === "object") {
+        if (schema.type === "array") {
+            // Keep arrays as arrays, just normalize the items
             return {
                 ...schema,
-                properties: Object.fromEntries(
-                    Object.entries(schema.properties).map(([key, value]) => {
-                        return [key, normalizeSchema(value)];
-                    })
-                ),
+                items: normalizeSchema(schema.items)
+            };
+        } else
+        if (schema.type === "object" && schema.properties) {
+            // Process object with properties recursively
+            const normalizedProperties = Object.fromEntries(
+                Object.entries(schema.properties).map(([key, value]) => {
+                    return [key, normalizeSchema(value)];
+                })
+            );
+            
+            return {
+                ...schema,
+                properties: normalizedProperties,
+                required: schema.required || Object.keys(normalizedProperties),
                 additionalProperties: false,
             };
         } else if (!schema.type) {
             // If schema is a plain object (no type), treat as properties
+            const properties = Object.fromEntries(
+                Object.entries(schema).map(([key, value]) => {
+                    return [key, normalizeSchema(value)];
+                })
+            );
+            
             return {
                 type: "object",
-                properties: Object.fromEntries(
-                    Object.entries(schema).map(([key, value]) => {
-                        return [key, normalizeSchema(value)];
-                    })
-                ),
-                required: Object.keys(schema),
+                properties,
+                required: Object.keys(properties),
                 additionalProperties: false,
             };
         }
