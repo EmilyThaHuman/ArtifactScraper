@@ -279,9 +279,12 @@ export class DataExtractor {
                 throw new Error("json_options.modelId is required and must be a string");
             }
             formatTasks.json = (async () => {
+                console.log('🔍 DataExtractor json_options:', JSON.stringify(options.json_options, null, 2));
                 const markdown = await (formatTasks.markdown ?? Promise.resolve(baseContent.markdown));
                 const llmExtractAgent = this.getLLMExtractAgent(modelId);
-                const result = await llmExtractAgent.perform(markdown, options.json_options.schema ?? null, {
+                const schema = options.json_options.schema ?? null;
+                console.log('🔍 DataExtractor schema before LLMExtract:', JSON.stringify(schema, null, 2));
+                const result = await llmExtractAgent.perform(markdown, schema, {
                     prompt: options.json_options.user_prompt ?? null,
                     schemaName: options.json_options.schema_name ?? null,
                     schemaDescription: options.json_options.schema_description ?? null,
