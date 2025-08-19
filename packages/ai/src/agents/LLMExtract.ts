@@ -18,7 +18,6 @@ function removeDefaultProperty(obj: any): any {
 }
 
 function normalizeSchema(schema: any): any {
-    console.log('🔍 normalizeSchema input:', JSON.stringify(schema, null, 2));
     if (schema && typeof schema === "object") {
         if (schema.type === "array") {
             // Keep arrays as arrays, just normalize the items if they exist
@@ -59,9 +58,7 @@ function normalizeSchema(schema: any): any {
         }
     }
     // Remove default property recursively and return the schema
-    const result = removeDefaultProperty(schema);
-    console.log('🔍 normalizeSchema output:', JSON.stringify(result, null, 2));
-    return result;
+    return removeDefaultProperty(schema);
 }
 
 // Interfaces
@@ -230,7 +227,9 @@ class LLMExtract extends BaseAgent {
      */
     async perform(text: string | string[], schema: JSONSchema7, options: ExtractOptions = {}): Promise<ExtractResult> {
         // --- normalize schema ---
+        console.log('🔍 Original schema input to perform():', JSON.stringify(schema, null, 2));
         const normalizedSchema = normalizeSchema(schema);
+        console.log('🔍 Final normalized schema:', JSON.stringify(normalizedSchema, null, 2));
         // Get default parameters based on model config
         const defaults = this.getDefaultParams();
         const {
