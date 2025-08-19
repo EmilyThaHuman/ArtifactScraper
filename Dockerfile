@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
     redis-server \
     supervisor \
     bash \
+    sqlite3 \
     && corepack enable \
     && npx playwright install-deps \
     && rm -rf /var/lib/apt/lists/*
@@ -99,8 +100,9 @@ COPY --from=build /usr/src/app/apps/api/package.json ./apps/api/
 COPY --from=build /usr/src/app/apps/api/docker-entrypoint.sh ./apps/api/
 COPY --from=build /usr/src/app/apps/api/drizzle ./apps/api/drizzle
 
-# Copy AI config file (if it exists)
+# Copy AI config file and database setup script
 COPY ai.config.json ./ai.config.json
+COPY setup.sql ./setup.sql
 
 # Install production dependencies
 RUN pnpm install --prod --no-frozen-lockfile
