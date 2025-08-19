@@ -28,19 +28,18 @@ if (aiConfig) {
         const apiKey = typedProvider.apiKey ?? (typedProvider.apiKeyEnv ? process.env[typedProvider.apiKeyEnv] : null);
         const baseURL = typedProvider.baseURL ?? (typedProvider.baseURLEnv ? process.env[typedProvider.baseURLEnv] : null);
 
-        if (apiKey && baseURL) {
+        if (apiKey) {
             if (key === 'openai') {
-                providerInstances[key] = createOpenAI({
-                    apiKey,
-                    baseURL,
-                });
-            } else if (key === 'openrouter') {
+                const openaiConfig: any = { apiKey };
+                if (baseURL) openaiConfig.baseURL = baseURL;
+                providerInstances[key] = createOpenAI(openaiConfig);
+            } else if (key === 'openrouter' && baseURL) {
                 providerInstances[key] = createOpenAICompatible({
                     name: key,
                     baseURL,
                     apiKey,
                 });
-            } else {
+            } else if (baseURL) {
                 // For any other provider, use openaiCompatible
                 providerInstances[key] = createOpenAICompatible({
                     name: key,

@@ -2,11 +2,11 @@
     "providers": {
         "openai": {
             "enabled": true,
-            "apiKey": "OPENAI_API_KEY"
+            "apiKeyEnv": "OPENAI_API_KEY"
         },
         "openrouter": {
             "enabled": true,
-            "apiKey": "OPENROUTER_API_KEY",
+            "apiKeyEnv": "OPENROUTER_API_KEY",
             "baseURL": "https://openrouter.ai/api/v1"
         },
         "custom": {
@@ -30,13 +30,20 @@
                 { "provider": "openrouter", "modelId": "openai/gpt-4o-mini" }
             ]
         },
+        "gpt-4.1-nano": {
+            "displayName": "GPT-4.1-nano",
+            "providers": [
+                { "provider": "openai", "modelId": "gpt-4.1-nano" },
+                { "provider": "openrouter", "modelId": "openai/gpt-4.1-nano" }
+            ]
+        },
         "gemini-2.5-flash": {
             "displayName": "Gemini 2.5 Flash",
             "providers": [{ "provider": "openrouter", "modelId": "google/gemini-2.5-flash" }]
         }
     },
     "defaults": {
-        "DEFAULT_LLM_MODEL": "gpt-4o-mini",
-        "DEFAULT_EXTRACT_MODEL": "gpt-4o-mini"
+        "DEFAULT_LLM_MODEL": "gpt-4.1-nano",
+        "DEFAULT_EXTRACT_MODEL": "gpt-4.1-nano"
     }
 }
