@@ -18,6 +18,7 @@ function removeDefaultProperty(obj: any): any {
 }
 
 function normalizeSchema(schema: any): any {
+    console.log('🔍 normalizeSchema input:', JSON.stringify(schema, null, 2));
     if (schema && typeof schema === "object") {
         if (schema.type === "array") {
             // Keep arrays as arrays, just normalize the items
@@ -57,7 +58,9 @@ function normalizeSchema(schema: any): any {
         }
     }
     // Remove default property recursively and return the schema
-    return removeDefaultProperty(schema);
+    const result = removeDefaultProperty(schema);
+    console.log('🔍 normalizeSchema output:', JSON.stringify(result, null, 2));
+    return result;
 }
 
 // Interfaces
