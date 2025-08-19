@@ -21,11 +21,12 @@ function normalizeSchema(schema: any): any {
     console.log('🔍 normalizeSchema input:', JSON.stringify(schema, null, 2));
     if (schema && typeof schema === "object") {
         if (schema.type === "array") {
-            // Keep arrays as arrays, just normalize the items
-            return {
-                ...schema,
-                items: normalizeSchema(schema.items)
-            };
+            // Keep arrays as arrays, just normalize the items if they exist
+            const result = { ...schema };
+            if (schema.items) {
+                result.items = normalizeSchema(schema.items);
+            }
+            return result;
         } else
         if (schema.type === "object" && schema.properties) {
             // Process object with properties recursively
