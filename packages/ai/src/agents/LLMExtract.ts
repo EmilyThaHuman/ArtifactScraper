@@ -23,25 +23,41 @@ function normalizeSchema(schema: any): any {
         return {
             type: "object",
             properties: {
-                items: schema,
+                items: {
+                    ...schema,
+                    items: normalizeSchema(schema.items)
+                },
             },
             required: ["items"],
             additionalProperties: false,
         };
-    } else if (schema && typeof schema === "object" && !schema.type) {
-        // If schema is a plain object (no type), treat as properties
-        return {
-            type: "object",
-            properties: Object.fromEntries(
-                Object.entries(schema).map(([key, value]) => {
-                    return [key, normalizeSchema(value)];
-                })
-            ),
-            required: Object.keys(schema),
-            additionalProperties: false,
-        };
+    } else if (schema && typeof schema === "object") {
+        if (schema.type === "object" && schema.properties) {
+            // Process object with properties recursively
+            return {
+                ...schema,
+                properties: Object.fromEntries(
+                    Object.entries(schema.properties).map(([key, value]) => {
+                        return [key, normalizeSchema(value)];
+                    })
+                ),
+                additionalProperties: false,
+            };
+        } else if (!schema.type) {
+            // If schema is a plain object (no type), treat as properties
+            return {
+                type: "object",
+                properties: Object.fromEntries(
+                    Object.entries(schema).map(([key, value]) => {
+                        return [key, normalizeSchema(value)];
+                    })
+                ),
+                required: Object.keys(schema),
+                additionalProperties: false,
+            };
+        }
     }
-    // Remove default property recursively
+    // Remove default property recursively and return the schema
     return removeDefaultProperty(schema);
 }
 
