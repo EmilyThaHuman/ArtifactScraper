@@ -4,10 +4,19 @@ import { AVAILABLE_ENGINES } from "@artifactscraper/scrape/managers/EngineQueue"
 // Define the recursive JSON Schema type
 export const jsonSchemaType: z.ZodType<any> = z.lazy(() =>
     z.object({
-        type: z.enum(["object", "array", "string", "number", "boolean", "null"]),
+        type: z.enum(["object", "array", "string", "number", "boolean", "null"]).optional(),
         properties: z.record(jsonSchemaType).optional(),
+        items: jsonSchemaType.optional(), // For array types
         required: z.array(z.string()).optional(),
-    })
+        additionalProperties: z.boolean().optional(),
+        enum: z.array(z.any()).optional(),
+        description: z.string().optional(),
+        minimum: z.number().optional(),
+        maximum: z.number().optional(),
+        minItems: z.number().optional(),
+        maxItems: z.number().optional(),
+        // Allow any additional properties to support full JSON Schema spec
+    }).passthrough() // This allows additional properties not explicitly defined
 );
 
 // define json options schema
