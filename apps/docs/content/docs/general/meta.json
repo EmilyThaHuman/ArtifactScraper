@@ -1,0 +1,17 @@
+{
+    "title": "General",
+    "description": "General docs",
+    "root": true,
+    "icon": "Building2",
+    "pages": [
+        "---Get Started---",
+        "index",
+        "docker",
+        "proxy-rule",
+        "---Scrape---",
+        "scrape",
+        "json-mode",
+        "---Search---",
+        "search"
+    ]
+}
